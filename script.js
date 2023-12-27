@@ -1,16 +1,18 @@
-const newsContainer = document.getElementById('category-news');
-const categoryLinks = document.querySelectorAll('nav a');
+document.addEventListener('DOMContentLoaded', function () {
+    // API key for GNews
+    const apiKey = 'c81a1b9c23612aab801bb8ee45ceca3b';
 
-// Function to fetch and display news for a specific category
-function fetchNewsByCategory(category) {
-    const apiKey = 'c81a1b9c23612aab801bb8ee45ceca3b'; // Replace with your actual API key
-    const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
+    // API endpoint for GNews
+    const url = `https://gnews.io/api/v4/search?q=example&lang=en&country=us&max=10&apikey=${apiKey}`;
 
+    // Fetch data from the GNews API
     fetch(url)
-        .then(response => response.json())
-        .then(data => {
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
             const articles = data.articles;
-            newsContainer.innerHTML = ''; // Clear previous news articles
+            const newsContainer = document.getElementById('news-container');
 
             articles.forEach(article => {
                 const newsArticle = document.createElement('div');
@@ -21,7 +23,7 @@ function fetchNewsByCategory(category) {
                 newsArticle.appendChild(title);
 
                 const image = document.createElement('img');
-                image.src = article.urlToImage || 'https://via.placeholder.com/200'; // Use placeholder if no image
+                image.src = article.image || 'https://via.placeholder.com/200'; // Use placeholder if no image
                 newsArticle.appendChild(image);
 
                 const description = document.createElement('p');
@@ -31,19 +33,7 @@ function fetchNewsByCategory(category) {
                 newsContainer.appendChild(newsArticle);
             });
         })
-        .catch(error => console.error(error));
-}
-
-// Fetch news for the initial category (Top Headlines)
-fetchNewsByCategory('general');
-
-// Handle category navigation clicks
-categoryLinks.forEach(link => {
-    link.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default link behavior
-        const selectedCategory = this.textContent;
-        categoryLinks.forEach(link => link.classList.remove('active'));
-        this.classList.add('active');
-        fetchNewsByCategory(selectedCategory);
-    });
+        .catch(function (error) {
+            console.error("Error fetching news:", error);
+        });
 });
