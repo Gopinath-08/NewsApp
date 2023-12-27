@@ -3,7 +3,7 @@ const categoryLinks = document.querySelectorAll('nav a');
 
 // Function to fetch and display news for a specific category
 function fetchNewsByCategory(category) {
-    const apiKey = 'd0cafc29985f4a05975149fcaf0ed8e0'; // Replace with your actual API key
+    const apiKey = 'c81a1b9c23612aab801bb8ee45ceca3b'; // Replace with your actual API key
     const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
 
     fetch(url)
